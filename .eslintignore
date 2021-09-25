@@ -1,0 +1,10 @@
+node_modules/
+public/
+*.css
+*.svg
+*.json
+*.txt
+*.png
+*.jpg
+*.jpeg
+*.html
