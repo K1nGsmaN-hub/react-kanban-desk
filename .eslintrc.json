@@ -27,7 +27,9 @@
             "ignorePackages",
             {
                 "ts": "never",
-                "tsx": "never"
+                "tsx": "never",
+                "js": "never",
+                "jsx": "never"
             }
         ],
         "max-len": ["warn", { "code": 120 }],
@@ -36,7 +38,8 @@
         "react/prop-types": "off",
         "import/prefer-default-export": "off",
         "jsx-a11y/anchor-is-valid": "off",
-        "react/jsx-props-no-spreading": "off"
+        "react/jsx-props-no-spreading": "off",
+        "react/react-in-jsx-scope": "off"
     },
     "settings": {
         "import/resolver": {
