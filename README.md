@@ -81,13 +81,13 @@ type Task = {
     _id: string;
     title: string;
     description?: string;
-    status: TaskStatus;
+    status: TaskStatus; // auto set by the column name
 }
 
 type Column = {
     _id: string;
     title: string;
-    tasks: Task[];
+    tasks?: Task[];
 }
 
 type Table = {
@@ -96,7 +96,7 @@ type Table = {
     shortName: string; // [A-Z]
     description?: string;
     taskStatuses?: TaskStatus[];
-    columns: Column[];
+    columns?: Column[];
 }
 
 type User = {
