@@ -1,6 +1,6 @@
 # Kanban-доска
 
-## Интерфэйс приложения
+## Интерфейс приложения
 ![Imgur](https://i.imgur.com/QcXioKz.jpg)
 
 На начальной странице находится два блока.
@@ -79,6 +79,7 @@ type TaskStatus = {
 
 type Task = {
     _id: string;
+    table_id: string;
     title: string;
     description?: string;
     status: TaskStatus; // auto set by the column name
@@ -86,65 +87,78 @@ type Task = {
 
 type Column = {
     _id: string;
+    table_id: string;
     title: string;
-    tasks?: Task[];
 }
 
 type Table = {
     _id: string;
+    user_id: string;
     title: string;
     shortName: string; // [A-Z]
     description?: string;
     taskStatuses?: TaskStatus[];
-    columns?: Column[];
 }
 
 type User = {
     _id: string;
     name: string;
     email?: email;
-    tables?: Table[];
 }
 ```
 
 ## Поля в БД
 
 ```typescript
-type DBStructor = {
+interface DBStructure {
     users: User[];
+    tables: Table[];
+    columns: Column[];
+    tasks: Task[];
 }
 ```
 
 ## API
-```
-[GET] /api/ - все данные из БД <DBStructor>
 
-[GET] /api/users/ - все пользователи <User[]>
+### Основная ветка
+```
+[MAIN] /api/ - все данные из БД <DBStructure>
+```
+### Ветка [users]
+```
 [POST] /api/users/ добавить нового пользователя <User>
 
-[GET] /api/users/:id/ - пользователь по ID <User>
-[PATCH] /api/users/:id/ - изменение параметров пользователя
-[DELETE] /api/users/:id/ - удалить пользователя
-
-[GET] /api/users/:id/tables/ - все таблицы пользователя <Table[]>
-[POST] /api/users/:id/tables/ - добавить новую таблицу <Table>
-
-[GET] /api/users/:id/tables/:table_id/ - таблица по table ID <Table>
-[PATCH] /api/users/:id/tables/:table_id/ - изменение параметров таблицы
-[DELETE] /api/users/:id/tables/:table_id/ - удалить таблицу
-
-[POST] /api/users/:id/tables/:table_id/columns/ - добавить новую колонку <Column>
-
-[PATCH] /api/users/:id/tables/:table_id/columns/:column_id/ - изменение параметров колонки
-[DELETE] /api/users/:id/tables/:table_id/columns/:column_id/ - удалить колонку
-
-[POST] /api/users/:id/tables/:table_id/columns/:column_id/tasks/ - добавить нувую задачу <Task>
-
-[GET] /api/users/:id/tables/:table_id/columns/:column_id/tasks/:task_id/ - задача по ID <Task>
-[PATCH] /api/users/:id/tables/:table_id/columns/:column_id/tasks/:task_id/ - изменение параметров задачи
-[DELETE] /api/users/:id/tables/:table_id/columns/:column_id/tasks/:task_id/ - удаленить задачу
+[GET] /api/users/:user_id/ - пользователь по ID <User>
+[PATCH] /api/users/:user_id/ - изменение параметров пользователя
+[DELETE] /api/users/:user_id/ - удалить пользователя
 ```
 
+### Ветка [tables]
+```
+[POST] /api/tables/ - добавить новую таблицу <Table>
+
+[PATCH] /api/tables/:table_id/ - изменение параметров таблицы
+[DELETE] /api/tables/:table_id/ - удалить таблицу
+[GET] /api/tables/?user_id= - таблицы по user ID Array<Table>
+```
+
+### Ветка [columns]
+```
+[POST] /api/columns/ - добавить новую колонку <Column>
+
+[PATCH] /api/columns/:column_id/ - изменение параметров колонки
+[DELETE] /api/columns/:column_id/ - удалить колонку
+[GET] /api/columns/?table_id= -  таблица по user ID Array<Column>
+```
+
+### Ветка [tasks]
+```
+[POST] /api/tasks/ - добавить нувую задачу <Task>
+
+[PATCH] /api/tasks/:task_id/ - изменение параметров задачи
+[DELETE] /api/tasks/:task_id/ - удаленить задачу
+[GET] /api/tasks/?table_id= - задачи по table ID Array<Task>
+```
 
 
 
